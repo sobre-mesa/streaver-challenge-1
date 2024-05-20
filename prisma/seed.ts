@@ -25,12 +25,12 @@ async function main() {
   console.log(userResponse)
   const userIds = [1,2,3,4,5,6,7,8,9,10]
   const postResponse = await Promise.all(
-    posts.reduce(
-      (post: IPost, acc: IUpsertRequestBody<IPost>[])=> {
-        return [...acc, ...userIds.map((id: number) => prisma.posts.create(mapToPostCreateObject(post, id)))]
-      }
-    ,[])
-  )
+    posts.flatMap((post: IPost) => 
+      userIds.map((id: number) => 
+        prisma.posts.create(mapToPostCreateObject(post, id))
+      )
+    )
+  );
   console.log(postResponse)
 }
 
