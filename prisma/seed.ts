@@ -5,11 +5,9 @@ import { IJsonPost, IPost } from '@/types/IPost';
 import { genericGetAll } from '@/app/api/utils/prismaUtils';
 const users = require('./data/users.json');
 const posts = require('./data/posts.json');
-const mapToPostUpsertObject = (post: IJsonPost, userId: number): IUpsertRequestBody<IPost> => (
+const mapToPostCreateObject = (post: IJsonPost, userId: number) => (
   {
-    where: {id: post.id},
-    update: {},
-    create: {...post, userId}
+    data: {...post, userId}
   }
 )
 const mapToUserUpsertObject = (user: IUser): IUpsertRequestBody<IUser> => (
@@ -29,10 +27,11 @@ async function main() {
   const postResponse = await Promise.all(
     posts.reduce(
       (post: IPost, acc: IUpsertRequestBody<IPost>[])=> {
-        return [...acc, ...userIds.map((id: number) => mapToPostUpsertObject(post, id))]
+        return [...acc, ...userIds.map((id: number) => prisma.posts.create(mapToPostCreateObject(post, id)))]
       }
     ,[])
   )
+  console.log(postResponse)
 }
 
 main()
