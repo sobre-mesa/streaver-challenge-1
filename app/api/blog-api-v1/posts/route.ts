@@ -8,7 +8,6 @@ const postParams  = (data: PostRequestBody<IPost>) : GenericPOSTParams => (
   {
   model,
   data,
-  validationField: "name",
   }
 )
 export async function POST(req: Request) {

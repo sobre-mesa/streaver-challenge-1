@@ -2,9 +2,9 @@ import { IUser } from '@/types/IUser';
 import prisma from '../lib/prisma'
 import { IUpsertRequestBody } from '@/types/UpsertRequestBody';
 import { IJsonPost, IPost } from '@/types/IPost';
-import { genericGetAll } from '@/app/api/utils/prismaUtils';
 const users = require('./data/users.json');
 const posts = require('./data/posts.json');
+
 const mapToPostCreateObject = (post: IJsonPost, userId: number) => (
   {
     data: {...post, userId}

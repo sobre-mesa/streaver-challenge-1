@@ -5,11 +5,12 @@ import { GenericPOSTData } from "@/types/PostRequestBody";
 export interface GenericPOSTParams {
   model: any;
   data: GenericPOSTData;
-  validationField: string//keyof GenericPOSTData;
+  validationField?: string//keyof GenericPOSTData;
 }
 
 export async function genericPOST({ model, data, validationField} : GenericPOSTParams)  {
   try {
+    if(validationField) {
       const exists = await model.findMany({
         where: {
           [validationField]: data[validationField as keyof GenericPOSTData],
@@ -23,6 +24,14 @@ export async function genericPOST({ model, data, validationField} : GenericPOSTP
         });
         return NextResponse.json(response);
       }
+    }
+    else {
+      const response = await model.create({
+        data,
+      });
+      return NextResponse.json(response); 
+    }
+    
   } catch (error) {
     return handleError(error);
   }
