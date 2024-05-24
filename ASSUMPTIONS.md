@@ -1,0 +1,5 @@
+- / is My Feed
+- I want to be able to see other users posts
+- Posts should be ordered by most recent
+- I can only post to my own feed, not other peoples, this would require a different database structure
+- Seeding logic will be modified in the future if seeding data is bigger, some of it relies on the simple solution
